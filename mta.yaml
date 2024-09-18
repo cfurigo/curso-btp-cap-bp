@@ -1,0 +1,70 @@
+_schema-version: 3.3.0
+ID: BusinessPartner
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: BusinessPartner-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-type: http
+      readiness-health-check-http-endpoint: /health
+    build-parameters:
+      builder: npm
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: BusinessPartner-auth
+      - name: BusinessPartner-destination
+
+  - name: BusinessPartner-destination-content
+    type: com.sap.application.content
+    requires:
+    - name: BusinessPartner-destination
+      parameters:
+        content-target: true
+    - name: BusinessPartner-auth
+      parameters:
+        service-key:
+          name: BusinessPartner-auth-key
+    parameters:
+      content:
+        instance:
+          destinations:
+          - Authentication: OAuth2UserTokenExchange
+            Name: BusinessPartner_auth
+            ServiceInstanceName: BusinessPartner-auth
+            ServiceKeyName: BusinessPartner-auth-key
+            sap.cloud.service: BusinessPartner
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+
+resources:
+  - name: BusinessPartner-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: BusinessPartner-${org}-${space}
+        tenant-mode: dedicated
+
+  - name: BusinessPartner-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: cfDest
+      service-plan: lite

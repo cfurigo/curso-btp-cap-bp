@@ -1,0 +1,19 @@
+{
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.odatauser",
+      "description": "odatauser"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "odatauser",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.odatauser"
+      ],
+      "attribute-references": []
+    }
+  ]
+}
