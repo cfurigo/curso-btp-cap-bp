@@ -22,7 +22,7 @@
     "start": "cds-serve"
   },
   "cds": {
-    "requires": {     
+    "requires": {
       "[development]": {
         "auth": {
           "kind": "mocked",
@@ -37,7 +37,7 @@
         },
         "API_BUSINESS_PARTNER": {
           "kind": "odata-v2",
-          "model": "srv/external/API_BUSINESS_PARTNER", 
+          "model": "srv/external/API_BUSINESS_PARTNER",
           "credentials": {
             "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER",
             "destination": "S4DEMO"
@@ -58,7 +58,7 @@
         },
         "API_BUSINESS_PARTNER": {
           "kind": "odata-v2",
-          "model": "srv/external/API_BUSINESS_PARTNER", 
+          "model": "srv/external/API_BUSINESS_PARTNER",
           "credentials": {
             "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER",
             "destination": "S4SANDBOX"
@@ -69,13 +69,13 @@
         "auth": "xsuaa",
         "API_BUSINESS_PARTNER": {
           "kind": "odata-v2",
-          "model": "srv/external/API_BUSINESS_PARTNER", 
+          "model": "srv/external/API_BUSINESS_PARTNER",
           "credentials": {
             "path": "/sap/opu/odata/sap/API_BUSINESS_PARTNER",
             "destination": "S4DEMO"
           }
         }
-      },       
+      },
       "destinations": true
     }
   }
